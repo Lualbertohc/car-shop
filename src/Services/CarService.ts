@@ -40,4 +40,12 @@ export default class CarService {
     if (!car) return { type: 404, message: 'Car not found' };
     return { type: null, message: this.createCarDomain(car) };
   }
+
+  public async updateById(carId: string, carProps: Partial<ICar>) {
+    if (!isValidObjectId(carId)) return { type: 422, message: 'Invalid mongo id' };
+    const carODM = new CarODM();
+    const updatedCar = await carODM.updateById(carId, carProps);
+    if (!updatedCar) return { type: 404, message: 'Car not found' };
+    return { type: null, message: this.createCarDomain(updatedCar) };
+  }
 }

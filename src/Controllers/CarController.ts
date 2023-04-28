@@ -5,13 +5,11 @@ import ICar from '../Interfaces/ICar';
 export default class CarController {
   private req: Request;
   private res: Response;
-  //   private next: NextFunction;
   private service: CarService;
 
   constructor(req: Request, res: Response) {
     this.req = req;
     this.res = res;
-    // this.next = next;
     this.service = new CarService();
   }
 
@@ -38,6 +36,14 @@ export default class CarController {
   public async getById() {
     const { id } = this.req.params;
     const { type, message } = await this.service.getById(id);
+    if (type) return this.res.status(type).json({ message });
+    return this.res.status(200).json(message);
+  }
+
+  public async updateById() {
+    const { id } = this.req.params;
+    const carProps = this.req.body;
+    const { type, message } = await this.service.updateById(id, carProps);
     if (type) return this.res.status(type).json({ message });
     return this.res.status(200).json(message);
   }
