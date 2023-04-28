@@ -15,7 +15,7 @@ export default class CarController {
     this.service = new CarService();
   }
 
-  public async create() {
+  public async createNewCar() {
     const car: ICar = {
       model: this.req.body.model,
       year: this.req.body.year,
@@ -28,5 +28,17 @@ export default class CarController {
 
     const newCar = await this.service.createNewCar(car);
     return this.res.status(201).json(newCar);
+  }
+
+  public async getAllCars() {
+    const cars = await this.service.getAllCars();
+    return this.res.status(200).json(cars);
+  }
+
+  public async getById() {
+    const { id } = this.req.params;
+    const { type, message } = await this.service.getById(id);
+    if (type) return this.res.status(type).json({ message });
+    return this.res.status(200).json(message);
   }
 }

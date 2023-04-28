@@ -6,5 +6,5 @@ export default interface ICarDomainParams {
   buyValue: number;
   doorsQty: number;
   seatsQty: number;
-  status?: boolean;
+  status?: boolean | undefined;
 }

@@ -8,7 +8,7 @@ export default class Car {
   protected buyValue: number;
   private doorsQty: number;
   private seatsQty: number;
-  protected status: boolean;
+  protected status: boolean | undefined;
   
   constructor(params: ICarDomainParams) {
     this.id = params.id;
@@ -18,6 +18,6 @@ export default class Car {
     this.buyValue = params.buyValue;
     this.doorsQty = params.doorsQty;
     this.seatsQty = params.seatsQty;
-    this.status = params.status || false;
+    this.status = params.status;
   }
 }
