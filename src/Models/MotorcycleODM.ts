@@ -19,4 +19,12 @@ export default class MotorcycleODM extends AbstractODM<IMotorcycle> {
   public async createNewMotorcycles(motorcycle: IMotorcycle): Promise<IMotorcycle | null> {
     return this.model.create(motorcycle);
   }
+
+  public async getAllMotorcycles(): Promise<IMotorcycle[]> {
+    return this.model.find();
+  }
+
+  public async getById(motorcyrcleId: string): Promise<IMotorcycle | null> {
+    return this.model.findOne({ _id: motorcyrcleId });
+  }
 }
