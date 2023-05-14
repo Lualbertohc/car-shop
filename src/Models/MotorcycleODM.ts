@@ -27,4 +27,16 @@ export default class MotorcycleODM extends AbstractODM<IMotorcycle> {
   public async getById(motorcyrcleId: string): Promise<IMotorcycle | null> {
     return this.model.findOne({ _id: motorcyrcleId });
   }
+
+  public async updateById(
+    motorId: string,
+    motorProps: Partial<IMotorcycle>,
+  ): Promise<IMotorcycle | null> {
+    const updatedCar = await this.model.findByIdAndUpdate(
+      { _id: motorId },
+      { ...motorProps },
+      { new: true },
+    );
+    return updatedCar;
+  }
 }
