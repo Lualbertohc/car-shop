@@ -47,7 +47,7 @@ export default class MotorcycleService {
     if (!isValidObjectId(motorId)) return { type: 422, message: 'Invalid mongo id' };
     const carODM = new MotorcycleODM();
     const updatedCar = await carODM.updateById(motorId, motorProps);
-    if (!updatedCar) return { type: 404, message: 'Car not found' };
+    if (!updatedCar) return { type: 404, message: 'Motorcycle not found' };
     return { type: null, message: this.createMotorcycleDomain(updatedCar) };
   }
 }
