@@ -5,6 +5,10 @@ import Car from '../../../src/Domains/Car';
 import CarService from '../../../src/Services/CarService';
 import ICar from '../../../src/Interfaces/ICar';
 import CarODM from '../../../src/Models/CarODM';
+import Motorcycle from '../../../src/Domains/Motorcycle';
+import MotorcycleService from '../../../src/Services/MotorcycleService';
+import IMotorcycle from '../../../src/Interfaces/IMotorcycle';
+import MotorcycleODM from '../../../src/Models/MotorcycleODM';
 
 describe('CarService', function () {
   describe('createNewCar', function () {
@@ -146,6 +150,86 @@ describe('CarService', function () {
       const result = await service.updateById('644c0dbc0c986e64e0ce8bdb', {});
   
       expect(result).to.be.deep.equal({ type: 404, message: 'Car not found' });
+    });
+  });
+
+  describe('MotorcycleService', function () {
+    describe('createNewMotorcycles', function () {
+      it('Deveria criar uma moto com sucesso', async function () {
+        const inputMotorcycle: IMotorcycle = {
+          model: 'Ninja',
+          year: 2022,
+          color: 'Green',
+          buyValue: 50000.00,
+          category: 'Street',
+          engineCapacity: 1000,
+        };
+
+        const outputMotorcycle: Motorcycle = new Motorcycle({
+          id: '123',
+          model: inputMotorcycle.model,
+          year: inputMotorcycle.year,
+          color: inputMotorcycle.color,
+          buyValue: inputMotorcycle.buyValue,
+          category: inputMotorcycle.category,
+          engineCapacity: inputMotorcycle.engineCapacity,
+          status: false,
+        });
+
+        sinon.stub(Model, 'create').resolves(outputMotorcycle);
+        const service = new MotorcycleService();
+        const result = await service.createNewMotorcycles(inputMotorcycle);
+    
+        expect(result).to.be.deep.equal(outputMotorcycle);
+      });
+    });
+
+    describe('getAllMotorcycle', function () {
+      it('Deveria retornar uma matriz de instâncias de Motorcycle', async function () {
+        const outputMotorcycle: Motorcycle = new Motorcycle({
+          id: '644c0dbc0c986e64e0ce8bdb',
+          model: 'Ninja',
+          year: 2022,
+          color: 'Green',
+          buyValue: 50000.00,
+          category: 'Street',
+          engineCapacity: 1000,
+        });
+  
+        sinon.stub(Model, 'find').resolves([outputMotorcycle]);
+        const service = new MotorcycleService();
+        const result = await service.getAllMotorcycles();
+  
+        expect(result).to.be.deep.equal([outputMotorcycle]);
+      });
+  
+      it('deve retornar uma matriz vazia se não houver motos', async function () {
+        sinon.stub(MotorcycleODM.prototype, 'getAllMotorcycles').resolves([]);
+        const service = new MotorcycleService();
+        const result = await service.getAllMotorcycles();
+  
+        expect(result).to.be.deep.equal([]);
+      });
+    }); 
+    
+    describe('getById', function () {
+      it('Deveria retornar uma moto por id', async function () {
+        const outputMotorcycle: Motorcycle = new Motorcycle({
+          id: '644c0dbc0c986e64e0ce8bdb',
+          model: 'Ninja',
+          year: 2022,
+          color: 'Green',
+          buyValue: 50000.00,
+          category: 'Street',
+          engineCapacity: 1000,
+        });
+  
+        sinon.stub(Model, 'findOne').resolves(outputMotorcycle);
+        const service = new MotorcycleService();
+        const result = await service.getById('644c0dbc0c986e64e0ce8bdb');
+  
+        expect(result).to.be.deep.equal({ type: null, message: outputMotorcycle });
+      });
     });
   });
 
